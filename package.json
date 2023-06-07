@@ -1,0 +1,24 @@
+{
+  "name": "servicos-bancarios",
+  "version": "1.0.0",
+  "description": "[[[´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´![](https://i.imgur.com/xG74tOh.png)",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.11.0",
+    "uuid": "^9.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon ./src/servidor.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
