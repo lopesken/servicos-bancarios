@@ -1,9 +1,6 @@
-# Desafio Módulo 2 - Back-end
+# Desafio Serviços Bancários - Back-end
 
-Você acabou de ser contratado pela melhor empresa de tecnologia do mundo: a **CUBOS**.
-Sua primeira tarefa como desenvolvedor é criar uma API para um Banco Digital. Esse será um projeto **piloto**, ou seja, no futuro outras funcionalidades serão implementadas, portanto, dados do banco (nome, agência, etc.) serão imutáveis.
-
-Seu papel é construir uma RESTful API que permita:
+Criação de API Rest que contenha as seguintes funcionalidades:
 
 -   Criar conta bancária
 -   Listar contas bancárias
@@ -18,8 +15,6 @@ Seu papel é construir uma RESTful API que permita:
 ## Status Code
 
 Abaixo, listamos os possíveis ***status code*** esperados como resposta da API.
-
-Obs.: A lista abaixo é para consulta, **não** significa que todos os ***status codes*** precisam necessariamente ser utilizados.
 
 ```javascript
 // 200 (OK) = requisição bem sucedida
