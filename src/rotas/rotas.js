@@ -34,7 +34,7 @@ rotas.get('/conta', listarContas)
 rotas.patch('/usuario', validarDados, atualizarDados)
 rotas.delete('/excluir/:id', excluirConta)
 
-rotas.get('/depositar', depositar)
+rotas.patch('/depositar', depositar)
 rotas.get('/sacar', sacar)
 rotas.get('/transferir', transferir)
 rotas.get('/saldo', saldoAtual)
