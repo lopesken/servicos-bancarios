@@ -18,11 +18,15 @@ const criarUsuario = async (req, res) => {
     }
 }
 const criarConta = async (req, res) => {
-    let { id } = req.usuario
+    const { id } = req.usuarioLogado
+    const { saldo } = req.body
     try {
-        let numero = uuid()
-        const insert = `insert into contas (numero, usuario_id) values ($1,$2)`
-        await poolQuery(insert, [numero, id])
+        if (!saldo || saldo <= 0) {
+            return res.status(404).json({ mensagem: `Não é possível criar conta com saldo zerado` })
+        }
+        const numero = uuid()
+        const insert = `insert into contas (numero, usuario_id, saldo) values ($1,$2,$3)`
+        await poolQuery(insert, [numero, id, saldo])
 
         return res.status(201).json({ mensagem: `Conta criada com sucesso` })
     } catch (error) {
@@ -42,7 +46,7 @@ const login = async (req, res) => {
     }
 }
 const listarContas = async (req, res) => {
-    const { id } = req.usuario
+    const { id } = req.usuarioLogado
     try {
         const select = `select * from contas where usuario_id = $1`
         const resultado = await poolQuery(select, [id])

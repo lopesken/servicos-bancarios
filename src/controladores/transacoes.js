@@ -1,34 +1,25 @@
 // const { format } = require("date-fns");
 const { v4: uuid } = require('uuid');
-const { format } = require('date-fns')
+const { format } = require('date-fns');
+const { poolQuery } = require('../conexoes/conexoes');
 //yyyy-mm-dd hh-mm-ss
 
-const depositar = (req, res) => {
+const depositar = async (req, res) => {
+    const { conta, valor } = req.body
+
     try {
-        const { numero_conta, valor } = req.body
+        const select = `select saldo from contas where numero = $1`
+        const saldoAnterior = await poolQuery(select, [conta])
+        const valorAnterior = saldoAnterior.rows[0].saldo
+        const soma = Number(valorAnterior) + Number(valor)
+        const update = `update contas set saldo = $1 where numero=$2`
+        await poolQuery(update, [soma, conta])
 
-        let filtroDeConta = contas.find(usuario => {
-            return usuario.numero == numero_conta
-        })
-        if (!filtroDeConta) {
-            return res.status(404).json({
-                'mensagem': 'Conta não encontrada'
-            })
-        }
-
-        if (filtroDeConta) {
-            filtroDeConta.saldo = Number(filtroDeConta.saldo) + Number(valor)
-            depositos.push({ data: format(new Date, 'yyyy-MM-dd HH:mm:ss'), numero_conta, valor });
-            return res.status(200).json({
-                'mensagem': `Deposito de ${valor} efetuado! `
-            })
-        }
-
+        return res.status(201).json({ mensagem: `R$${valor} depositado` })
 
     } catch (error) {
-        return res.status(400).json({
-            'mensagem': `Erro no servidor ${error.message}`
-        })
+        return res.status(500).json({ mensagem: error.message })
+
     }
 }
 const sacar = (req, res) => {
