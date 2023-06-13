@@ -22,33 +22,28 @@ const depositar = async (req, res) => {
 
     }
 }
-const sacar = (req, res) => {
+const sacar = async (req, res) => {
+    const { conta, valor } = req.body
+
     try {
-        const { numero_conta, valor } = req.body
+        const select = `select saldo from contas where numero = $1`
+        const saldoAnterior = await poolQuery(select, [conta])
+        const valorAnterior = saldoAnterior.rows[0].saldo
 
-        let filtroDeConta = contas.find(usuario => {
-            return usuario.numero == numero_conta
-        })
-
-        if (filtroDeConta.saldo < valor) {
-            return res.status(403).json({
-                'mensagem': 'Saldo insuficiente!'
-            })
+        if (Number(valorAnterior) > Number(valor)) {
+            const subtracao = Number(valorAnterior) - Number(valor)
+            const update = `update contas set saldo = $1 where numero=$2`
+            await poolQuery(update, [subtracao, conta])
+            return res.status(201).json({ mensagem: `Saque de R$${valor} realizado com sucesso` })
         }
+        return res.status(400).json({ mensagem: `Saldo insuficiente` })
 
-        if (filtroDeConta) {
-            filtroDeConta.saldo = Number(filtroDeConta.saldo) - Number(valor)
-            saques.push({ data: format(new Date, 'yyyy-MM-dd HH:mm:ss'), numero_conta, valor })
-            return res.status(200).json({
-                'mensagem': `Saque de ${valor} efetuado! `
-            })
-        }
 
     } catch (error) {
-        return res.status(400).json({
-            'mensagem': `Erro no servidor ${error.message}`
-        })
+        return res.status(500).json({ mensagem: error.message })
     }
+
+
 }
 const transferir = (req, res) => {
     try {

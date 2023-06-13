@@ -28,14 +28,16 @@ rotas.get('/', (req, res) => {
 })
 rotas.post('/usuario', validarDados, duplicidade, criarUsuario)
 rotas.post('/login', validarSenha, login)
+rotas.patch('/depositar', depositar)
+
 rotas.use(autenticacao)
+
 rotas.post('/conta', criarConta)
 rotas.get('/conta', listarContas)
 rotas.patch('/usuario', validarDadosAtualizar, atualizarDados)
 rotas.delete('/excluir/:id', excluirConta)
 
-rotas.patch('/depositar', depositar)
-rotas.get('/sacar', sacar)
+rotas.patch('/sacar', sacar)
 rotas.get('/transferir', transferir)
 rotas.get('/saldo', saldoAtual)
 rotas.get('/extrato', extrato)
