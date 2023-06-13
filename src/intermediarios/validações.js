@@ -27,45 +27,31 @@ const validarSenha = async (req, res, next) => {
 const validarDados = (req, res, next) => {
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body
 
-    if (!nome || nome == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade nome não foi informada ou está vazia'
-        })
+    if (!nome || !data_nascimento || !telefone || !email || !senha || !cpf) {
+        return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios.' });
+    }
+    if (senha && senha.length < 6) {
+        return res.status(400).json({ mensagem: 'A senha deve ter pelo menos 6 caracteres.' });
+    }
+    if (cpf && cpf.length !== 11 && cpf !== Number(cpf)) {
+        return res.status(400).json({ mensagem: 'O CPF deve conter 11 caracteres numéricos.' });
+
     }
 
-    if (!cpf || cpf == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade CPF não foi informada ou está vazia'
-        })
-    }
-    if (cpf.length < 11) {
-        return res.status(400).json({
-            'mensagem': 'A propriedade CPF deve conter 11 dígitos'
-        })
-    }
 
-    if (!data_nascimento || data_nascimento == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade data_nascimento não foi informada ou está vazia'
-        })
-    }
-    if (!telefone || telefone == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade telefone não foi informada ou está vazia'
-        })
-    }
+    next()
+}
+const validarDadosAtualizar = (req, res, next) => {
+    const { nome, data_nascimento, telefone, email, senha } = req.body
 
-    if (!email || email == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade email não foi informada ou está vazia'
-        })
+    if (!nome || !data_nascimento || !telefone || !email || !senha) {
+        return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios.' });
     }
-    if (!senha || senha == "") {
-        return res.status(400).json({
-            'mensagem': 'A propriedade senha não foi informada ou está vazia'
-        })
+    if (senha && senha.length < 6) {
+        return res.status(400).json({ mensagem: 'A senha deve ter pelo menos 6 caracteres.' });
     }
     next()
+
 }
 const duplicidade = async (req, res, next) => {
     const { cpf } = req.body
@@ -86,5 +72,6 @@ const duplicidade = async (req, res, next) => {
 module.exports = {
     validarSenha,
     validarDados,
-    duplicidade
+    duplicidade,
+    validarDadosAtualizar
 }
