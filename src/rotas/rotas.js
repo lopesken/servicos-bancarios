@@ -17,7 +17,7 @@ const {
     saldoAtual,
 } = require('../controladores/transacoes')
 const {
-    validarDados, validarSenha, duplicidade
+    validarDados, validarSenha, duplicidade, validarDadosAtualizar
 } = require('../intermediarios/validações')
 const autenticacao = require('../intermediarios/token')
 
@@ -31,7 +31,7 @@ rotas.post('/login', validarSenha, login)
 rotas.use(autenticacao)
 rotas.post('/conta', criarConta)
 rotas.get('/conta', listarContas)
-rotas.patch('/usuario', validarDados, atualizarDados)
+rotas.patch('/usuario', validarDadosAtualizar, atualizarDados)
 rotas.delete('/excluir/:id', excluirConta)
 
 rotas.patch('/depositar', depositar)
