@@ -1,4 +1,4 @@
-# Desafio Serviços Bancários - Back-end
+# Serviços Bancários - Back-end
 
 Criação de API Rest que contenha as seguintes funcionalidades:
 
