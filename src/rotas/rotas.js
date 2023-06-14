@@ -13,7 +13,6 @@ const {
     sacar,
     transferir,
     depositar,
-    extrato,
     saldoAtual,
 } = require('../controladores/transacoes')
 const {
@@ -38,8 +37,7 @@ rotas.patch('/usuario', validarDadosAtualizar, atualizarDados)
 rotas.delete('/excluir/:id', excluirConta)
 
 rotas.patch('/sacar', sacar)
-rotas.get('/transferir', transferir)
+rotas.patch('/transferir', transferir)
 rotas.get('/saldo', saldoAtual)
-rotas.get('/extrato', extrato)
 
 module.exports = rotas
